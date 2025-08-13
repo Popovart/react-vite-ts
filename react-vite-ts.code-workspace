@@ -1,0 +1,30 @@
+{
+	"folders": [
+		{
+			"path": "../webpackTemplate"
+		},
+		{
+			"path": "../bulletproof-react"
+		},
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"typescript.tsdk": "react-vite-ts/node_modules/typescript/lib",
+		"typescript.enablePromptUseWorkspaceTsdk": true, // make vs code use typescript version from the project
+		"files.associations": { "*.css": "tailwindcss" },
+		"tailwindCSS.includeLanguages": { "plaintext": "html" },
+		"tailwindCSS.files.exclude": [
+			"**/dist/**",
+			"**/build/**",
+			"**/coverage/**",
+			"**/.vite/**",
+			"**/.turbo/**",
+			"**/.cache/**",
+			"**/.vercel/**",
+			"**/.netlify/**"
+		],
+		"tailwindCSS.emmetCompletions": true,
+	}
+}
