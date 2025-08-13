@@ -6,7 +6,7 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineConfig({
   plugins: [
     react(),
-    viteTsconfigPaths(), // to avoid aliases duplication
+    viteTsconfigPaths({ projects: ['tsconfig.app.json'] }), // to avoid aliases duplication
     tailwindcss()
   ],
 })
