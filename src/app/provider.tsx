@@ -1,5 +1,5 @@
 import { Suspense } from "react"
-import { Spinner } from "@/components/Spinner"
+import { Spinner } from "@/components/spinner"
 
 type AppProviderProps = {
     children: React.ReactNode;
@@ -13,6 +13,7 @@ export const AppProvider = ({ children }: AppProviderProps ) => {
                     <Spinner size="xl" />
                 </div>
             }
+            {children}
         </Suspense>
     )
 }
