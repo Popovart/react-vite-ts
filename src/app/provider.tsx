@@ -10,15 +10,16 @@ const queryClient = new QueryClient()
 
 export const AppProvider = ({ children }: AppProviderProps ) => {
     return (
-        <Suspense>
-            fallback = {
-                <div className="flex h-screen w-screen items-center justify-center">
-                    <Spinner size="xl" />
-                </div>
-            }
-            <QueryClientProvider client={queryClient}>
+        <QueryClientProvider client={queryClient}>
+            <Suspense
+                fallback = {
+                    <div className="flex h-screen w-screen items-center justify-center">
+                        <Spinner size="xl" />
+                    </div>
+                }
+            >
                 {children}
-            </QueryClientProvider>
-        </Suspense>
+            </Suspense>
+        </QueryClientProvider>
     )
 }
