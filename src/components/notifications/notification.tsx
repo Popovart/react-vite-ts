@@ -23,7 +23,7 @@ export const NotificationCard = ({
         <div className="flex w-full flex-col items-center space-y-4 sm:items-end">
             <div className="pointer-events-auto w-full max-w-sm overflow-hidden rounded-lg bg-white shadow-lg ring-1 ring-black/5">
                 <div className="p-4" role="alert" aria-label={title}>
-                    <div className="flex items-start">
+                    <div className="flex items-center">
                         <div className="shrink-0">{icons[type]}</div>
                         <div className="ml-3 w-0 flex-1 pt-0.5">
                             <p className="text-sm font-medium text-gray-900">{title}</p>

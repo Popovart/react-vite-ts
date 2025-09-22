@@ -6,7 +6,7 @@ import { cn } from "@/utils/cn"
 export const Link = ({ className, children, ...props }: RouterLinkProps) => {
     return (
         <RouterLink
-            className={cn("text-slate-600 hover:text-slate-900", className)}
+            className={cn("!text-amber-400 transition-colors duration-300 ease-in-out hover:!text-amber-700", className)}
             {...props}
         >
             {children}

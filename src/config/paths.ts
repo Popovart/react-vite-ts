@@ -1,6 +1,14 @@
 export const paths = {
     home: {
-        path: '/',
-        getHref: () => '/'
+        path: "/",
+        getHref: () => "/",
     },
-} as const;
+    projects: {
+        path: "projects",
+        getHref: () => "/projects",
+    },
+    project: {
+        path: "projects/:projectId",
+        getHref: (id: string) => `/projects/${id}`,
+    },
+} as const

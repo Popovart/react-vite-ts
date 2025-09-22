@@ -1,6 +1,6 @@
 import Axios from "axios"
 
-import { useNotifications } from "@/components/ui/notifications"
+import { useNotifications } from "@/components/notifications"
 import { env } from "@/config/env"
 
 export const api = Axios.create({
