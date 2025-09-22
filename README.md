@@ -85,11 +85,6 @@ Resolved by Vite via `vite-tsconfig-paths`:
   - Linting: `eslint`, `@eslint/js`, `typescript-eslint`, `eslint-plugin-react`, `eslint-plugin-react-hooks`, `eslint-plugin-react-refresh`, `eslint-plugin-storybook`, `globals`.
   - Storybook ecosystem: `@storybook/react`, `@storybook/react-vite`, `@storybook/addon-a11y`, `@storybook/addon-docs`, `@storybook/addon-onboarding`, `@storybook/addon-vitest`, `@chromatic-com/storybook`.
   - Testing: `vitest`, `@vitest/browser`, `@vitest/coverage-v8`, `playwright`.
-  - Utilities: `clsx`, `tailwind-merge`, `jiti`.
-
-### Notes
-- TypeScript is configured with `noEmit`, so compilation is handled by Vite; `tsc -b` is used only for type-checking.
-- Path aliases in TS are automatically respected by Vite via `vite-tsconfig-paths`.
-- Tailwind v4 runs through the Vite plugin; no manual PostCSS setup is required.
+  - Utilities: `clsx`, `tailwind-merge`.
 
 
