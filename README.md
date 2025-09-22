@@ -1,69 +1,95 @@
-# React + TypeScript + Vite
+## react-vite-ts
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### Overview
+React 19 + TypeScript + Vite 7 template with Tailwind CSS v4, Storybook 9, Vitest (browser), and Playwright. It includes strict TypeScript settings, path aliases, flat-config ESLint, and Storybook-integrated tests.
 
-Currently, two official plugins are available:
+### Getting started
+- Install: `npm install`
+- Dev server: `npm run dev`
+- Build: `npm run build`
+- Preview built app: `npm run preview`
+- Lint: `npm run lint`
+- Storybook: `npm run storybook`
+- Build Storybook: `npm run build-storybook`
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Scripts
+- **dev**: start Vite dev server.
+- **build**: type-check with TypeScript project references, then build with Vite.
+- **preview**: preview the production build locally.
+- **lint**: run ESLint (flat config).
+- **storybook**: run Storybook on port 6006.
+- **build-storybook**: build Storybook as a static site.
 
-## Expanding the ESLint configuration
+### Tech stack
+- **Build/Dev**: Vite 7, `@vitejs/plugin-react` (Fast Refresh), `@tailwindcss/vite`, `vite-tsconfig-paths`.
+- **Language**: TypeScript 5 (strict), JSX runtime (react-jsx).
+- **UI**: Radix UI primitives (`@radix-ui/react-dialog`, `@radix-ui/react-label`, `@radix-ui/react-slot`, `@radix-ui/react-icons`), `lucide-react`, `react-datepicker`.
+- **State/Data**: `zustand`, `@tanstack/react-query`, `axios`.
+- **Forms/Validation**: `react-hook-form`, `@hookform/resolvers`, `zod`.
+- **Utilities**: `class-variance-authority`, `clsx`, `tailwind-merge`, `nanoid`.
+- **Testing**: `vitest`, `@vitest/browser`, `@vitest/coverage-v8`, `playwright`.
+- **Documentation**: Storybook 9 with addons (a11y, docs, onboarding, vitest).
+- **Linting**: ESLint 9 (flat) with `@eslint/js`, `typescript-eslint`, `eslint-plugin-react`, `eslint-plugin-react-hooks`, `eslint-plugin-react-refresh`, `eslint-plugin-storybook`.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Configuration
+- **Vite (`vite.config.ts`)**
+  - Plugins: React, TS path aliases (reads `tsconfig.app.json`), Tailwind CSS v4.
+  - Vitest: browser project that integrates Storybook via `@storybook/addon-vitest/vitest-plugin`, runs Chromium via Playwright, uses `.storybook/vitest.setup.ts`.
+- **TypeScript**
+  - `tsconfig.json`: project references to `tsconfig.app.json` and `tsconfig.node.json`.
+  - `tsconfig.app.json`: `target: ES2022`, libs `DOM`/`DOM.Iterable`, bundler module resolution, `jsx: react-jsx`, strict mode, unused checks, and path aliases (see below).
+  - `tsconfig.node.json`: `target: ES2023` for Node-side config files (e.g., `vite.config.ts`), strict checks.
+- **ESLint (`eslint.config.ts`)**
+  - Flat config extending recommended sets for JS, TS, React, React Hooks, and React Refresh.
+  - Browser globals via `globals`. React version auto-detected. Disables `react/react-in-jsx-scope`.
+- **Tailwind CSS**
+  - Tailwind v4 via `@tailwindcss/vite` plugin (no separate PostCSS config required).
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Path aliases (TypeScript)
+Resolved by Vite via `vite-tsconfig-paths`:
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```json
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@app/*": ["./src/app/*"],
+      "@project_manager/*": ["./src/features/project_manager/*"]
+    }
+  }
+}
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Testing
+- **Vitest (browser)**: integrates Storybook with `@storybook/addon-vitest` to run component tests in a real browser via Playwright (Chromium, headless).
+- **Coverage**: V8 coverage with `@vitest/coverage-v8`.
+- **Setup**: browser project uses `.storybook/vitest.setup.ts`.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### Dependencies breakdown
+- **Runtime**
+  - `react`, `react-dom`: UI runtime.
+  - `@radix-ui/*`: accessible, unstyled UI primitives.
+  - `lucide-react`: icon set.
+  - `react-datepicker`: date picker component.
+  - `zustand`: lightweight state management.
+  - `@tanstack/react-query`: server-state caching/fetching.
+  - `axios`: HTTP client.
+  - `react-hook-form`, `@hookform/resolvers`, `zod`: forms and schema validation.
+  - `class-variance-authority`, `clsx`, `tailwind-merge`: className utilities.
+  - `nanoid`: ID generation.
+  - `storybook`: Storybook CLI/runtime for docs.
+- **Dev**
+  - Build & plugins: `vite`, `@vitejs/plugin-react`, `vite-tsconfig-paths`, `tailwindcss`, `@tailwindcss/vite`.
+  - TypeScript & types: `typescript`, `@types/react`, `@types/react-dom`, `@types/node`.
+  - Linting: `eslint`, `@eslint/js`, `typescript-eslint`, `eslint-plugin-react`, `eslint-plugin-react-hooks`, `eslint-plugin-react-refresh`, `eslint-plugin-storybook`, `globals`.
+  - Storybook ecosystem: `@storybook/react`, `@storybook/react-vite`, `@storybook/addon-a11y`, `@storybook/addon-docs`, `@storybook/addon-onboarding`, `@storybook/addon-vitest`, `@chromatic-com/storybook`.
+  - Testing: `vitest`, `@vitest/browser`, `@vitest/coverage-v8`, `playwright`.
+  - Utilities: `clsx`, `tailwind-merge`, `jiti`.
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### Notes
+- TypeScript is configured with `noEmit`, so compilation is handled by Vite; `tsc -b` is used only for type-checking.
+- Path aliases in TS are automatically respected by Vite via `vite-tsconfig-paths`.
+- Tailwind v4 runs through the Vite plugin; no manual PostCSS setup is required.
+
+
