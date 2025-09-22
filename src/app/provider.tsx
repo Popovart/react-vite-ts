@@ -1,7 +1,7 @@
 import { Suspense } from "react"
 import { Spinner } from "@/components/spinner"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
-
+import { Notifications } from "@/components/notifications"
 type AppProviderProps = {
     children: React.ReactNode;
 };
@@ -18,6 +18,7 @@ export const AppProvider = ({ children }: AppProviderProps ) => {
                     </div>
                 }
             >
+                <Notifications />
                 {children}
             </Suspense>
         </QueryClientProvider>
