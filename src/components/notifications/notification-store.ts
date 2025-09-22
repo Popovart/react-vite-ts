@@ -8,6 +8,7 @@ type NotificationsStore = {
     dismissNotification: (id: string) => void
 }
 
+// TODO: use immer instead for persistent data
 export const useNotifications = create<NotificationsStore>((set) => ({
     notifications: [],
     addNotification: (notification) => 
