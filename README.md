@@ -88,3 +88,99 @@ Resolved by Vite via `vite-tsconfig-paths`:
   - Utilities: `clsx`, `tailwind-merge`.
 
 
+
+
+### Review notes and Q&A
+
+#### Q&A
+- **What is `jiti` used for?**: `jiti` is a just-in-time loader that lets Node.js import TypeScript and ESM files without a separate build step. Tooling like Storybook/Vite plugins often use it to evaluate TypeScript or ESM config files at runtime. It's a dev-only helper; it is not bundled into your client code.
+- **What is `globals` used for?**: The `globals` package provides predefined sets of global variables for ESLint (e.g., browser globals like `window`, `document`). In this project it's used in `eslint.config.ts` to set `languageOptions.globals = globals.browser`, preventing false-positive "undefined global" lint errors.
+- **Why two TypeScript configs?**: The root `tsconfig.json` references two projects: `tsconfig.app.json` (browser app code, JSX, bundler resolution) and `tsconfig.node.json` (Node-side config files like `vite.config.ts`, with a different `target`/libs). This separation speeds up type-checking, uses proper libs for each environment, and avoids mixing Node/browser module resolution.
+
+#### Notes and recommendations
+- **`@/app/app` — casing**: Use consistent, case-accurate import paths. Case-insensitive macOS filesystems may mask issues that will fail on CI/Linux. Align the import casing with the actual filename (e.g., `@/app/App` if the file is `App.tsx`).
+- **`notifications/index` — avoid barrel files**: Barrel files (`index.ts` re-exports) can degrade type performance and complicate tree-shaking. Prefer importing from concrete modules. See: [Please stop using barrel files](https://tkdodo.eu/blog/please-stop-using-barrel-files) and [Faster builds when removing barrel files](https://www.atlassian.com/blog/atlassian-engineering/faster-builds-when-removing-barrel-files).
+- **`useNotifications` — immutable state**: Keep state updates immutable. With Zustand, consider the `immer` middleware to write concise, immutable updates while preserving structural sharing. Docs: [Immer middleware in Zustand](https://zustand.docs.pmnd.rs/middlewares/immer#immer).
+- **`NotificationCard` — use shared UI components**: Prefer composing from shared UI primitives/components (e.g., the design system and Radix primitives) for consistent styling, accessibility, and behavior instead of ad-hoc markup.
+- **Axios vs TanStack Query**: Axios is an HTTP client; TanStack Query manages server-state (caching, deduping, revalidation, mutations). Use TanStack Query for data fetching orchestration and cache, and plug Axios in as the fetcher. Avoid calling Axios directly in components without Query, except for non-cached, truly one-off actions.
+
+#### Optional: Biome + Ultracite configuration
+- **Ultracite**: A strict, opinionated preset for Biome (formatter/linter), useful if you adopt Biome alongside or instead of ESLint/Prettier. Learn more: [Ultracite](https://www.ultracite.ai/).
+- **Sample Biome config (from review)**:
+
+```json
+{
+  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+  "extends": ["ultracite"],
+  "linter": {
+    "rules": {
+      "complexity": {
+        "useSimplifiedLogicExpression": "off"
+      },
+      "nursery": {
+        "useConsistentTypeDefinitions": "off"
+      },
+      "suspicious": {
+        "noUnknownAtRules": "off",
+        "noConsole": {
+          "level": "error",
+          "options": {
+            "allow": ["assert", "error", "info", "warn"]
+          }
+        }
+      }
+    }
+  },
+  "formatter": {
+    "lineWidth": 120
+  },
+  "assist": {
+    "actions": {
+      "source": {
+        "organizeImports": {
+          "level": "on",
+          "options": {
+            "groups": [
+              [":URL:", ":BUN:", ":NODE:"],
+              ["react", "react/**"],
+              [
+                ":PACKAGE:",
+                ":PACKAGE_WITH_PROTOCOL:",
+                "!@api/**",
+                "!@assets/**",
+                "!@components/**",
+                "!@ui/**",
+                "!@features/**",
+                "!@hooks/**",
+                "!@layouts/**",
+                "!@pages/**",
+                "!@routes/**",
+                "!@store/**",
+                "!@typings/**",
+                "!@utils/**"
+              ],
+              ["@ui/**"],
+              [
+                ":ALIAS:",
+                "@api/**",
+                "@assets/**",
+                "@components/**",
+                "@features/**",
+                "@hooks/**",
+                "@layouts/**",
+                "@pages/**",
+                "@routes/**",
+                "@store/**",
+                "@typings/**",
+                "@utils/**"
+              ],
+              ":TYPE:",
+              ":PATH:"
+            ]
+          }
+        }
+      }
+    }
+  }
+}
+```
