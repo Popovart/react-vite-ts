@@ -93,9 +93,9 @@ Resolved by Vite via `vite-tsconfig-paths`:
 ### Review notes and Q&A
 
 #### Q&A
-- **What is `jiti` used for?**: `jiti` is a just-in-time loader that lets Node.js import TypeScript and ESM files without a separate build step. Tooling like Storybook/Vite plugins often use it to evaluate TypeScript or ESM config files at runtime. It's a dev-only helper; it is not bundled into your client code.
-- **What is `globals` used for?**: The `globals` package provides predefined sets of global variables for ESLint (e.g., browser globals like `window`, `document`). In this project it's used in `eslint.config.ts` to set `languageOptions.globals = globals.browser`, preventing false-positive "undefined global" lint errors.
-- **Why two TypeScript configs?**: The root `tsconfig.json` references two projects: `tsconfig.app.json` (browser app code, JSX, bundler resolution) and `tsconfig.node.json` (Node-side config files like `vite.config.ts`, with a different `target`/libs). This separation speeds up type-checking, uses proper libs for each environment, and avoids mixing Node/browser module resolution.
+- **What is `jiti` used for?**: `jiti` is redundant and is not used anywhere
+- **What is `globals` used for?**: globals can be omited for new versions of eslint.
+- **Why two TypeScript configs?**: One of the configs is redundant and just copies another one
 
 #### Notes and recommendations
 - **`@/app/app` — casing**: Use consistent, case-accurate import paths. Case-insensitive macOS filesystems may mask issues that will fail on CI/Linux. Align the import casing with the actual filename (e.g., `@/app/App` if the file is `App.tsx`).
