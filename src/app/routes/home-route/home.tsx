@@ -1,10 +1,10 @@
 
-import { useState } from "react"
 import reactLogo from "@/assets/react.svg"
 import viteLogo from "/vite.svg"
+import { Link } from "react-router"
+import { paths } from "@/config/paths"
 
 const HomeRoute = () => {
-    const [count, setCount] = useState(0)
     return (
         <>
             <div className="flex justify-center">
@@ -21,14 +21,16 @@ const HomeRoute = () => {
             </div>
             <h1 className="">Vite + React</h1>
             <div className="card">
-                <button
-                    className="mb-5"
-                    onClick={() => setCount((count) => count + 1)}
-                >
-                    count is {count}
-                </button>
                 <div>
                     Edit <code>src/App.tsx</code> and save to test HMR
+                </div>
+                <div>
+                    <Link
+                        onMouseEnter={() => {}}
+                        to={paths.projects.getHref()}
+                    >
+                        Go to projects
+                    </Link>
                 </div>
             </div>
             <p className="read-the-docs">
